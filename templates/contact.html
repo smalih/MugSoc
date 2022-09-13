@@ -1,0 +1,55 @@
+{% extends "layout.html" %} {% block main %}
+<section class="jumbotron text-center" id="mainBanner">
+  <div class="container">
+    <h1 class="jumbotron-heading" style="font-family: 'Norwester';">
+      CONTACT US
+    </h1>
+    <p class="lead text-muted">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </p>
+  </div>
+</section>
+<div class="main-text">
+  <p>
+    Vivamus auctor ipsum quis bibendum vulputate. Phasellus pretium feugiat
+    velit at cursus. Duis bibendum massa quis quam dignissim suscipit.
+  </p>
+</div>
+
+<form class="main-text">
+  <div class="form-group">
+    <label for="formGroupExampleInput">Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="formGroupExampleInput"
+      placeholder="John Doe"
+    />
+  </div>
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Email</label>
+    <input
+      type="text"
+      class="form-control"
+      id="formGroupExampleInput2"
+      placeholder="mugsociety@outlook.com"
+    />
+  </div>
+  <div class="form-group">
+    <label for="formGroupExampleInput3">Message</label>
+    <textarea
+      class="form-control"
+      id="formGroupExampleInput3"
+      placeholder="Write your message..."
+      rows="8"
+    ></textarea>
+  </div>
+  <button type="button" class="btn btn-outline-custom btn-outline-primary">
+    Send
+  </button>
+</form>
+
+<a href="#" class="btn btn-primary scrollUp">
+  <i class="fa fa-arrow-circle-o-up"></i>
+</a>
+{% endblock %}
