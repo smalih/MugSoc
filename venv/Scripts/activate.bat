@@ -31,3 +31,6 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" %_OLD_CODEPAGE% > nul
     set _OLD_CODEPAGE=
 )
+
+set TEXTMAIL_APIKEY = "f0d9e0e6-809e-48b2-892d-22ec6f1a2cbf"
+set MAILGUN_APIKEY = "2d219b0480102ab863388049a05899e6-680bcd74-a992d4bd"
