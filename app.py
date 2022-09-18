@@ -4,13 +4,32 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 # from flask_session import session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_mail import Mail, Message
+from forms import ContactForm
 
 
 # Configure application
 app = Flask(__name__)
 
+
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Import API keys
+app.config.from_object("config")
+
+
+
+
+# app.config["MAIL_SERVER"] = "smtp-mail.outlook.com"
+# app.config["MAIL_PORT"] = 587
+# app.config["MAIL_USE_SSL"] = True
+# app.config["MAIL_USE_TLS"] = True
+# app.config["MAIL_USERNAME"] = 'contact@example.com'
+# app.config["MAIL_PASSWORD"] = 'your-password'
+
+# mail = Mail(app)
+
 
 # 
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -37,9 +56,19 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    form = ContactForm()
+    if request.method == "POST":
+        if form.validate() == False:
+            return render_template("contact.html", form=form)
+        send_simple_message(request.form.get("name"),
+                            request.form.get("email"),
+                            request.form.get("message"))
+        return "Form posted."
+    
+    elif request.method == "GET":
+        return render_template("contact.html", form=form)
 
 @app.route("/cart")
 def cart():
