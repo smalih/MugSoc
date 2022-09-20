@@ -7,37 +7,35 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_mail import Mail, Message
 from forms import ContactForm
 
-import requests
 
 # Configure application
 app = Flask(__name__)
 
-
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# Import API keys
+# Import env variables
 app.config.from_object("config")
 
-def send_simple_message(name, sender, message, subject=""):
-            return requests.post(
-                "https://api.mailgun.net/v3/sandboxed6f16b686514f3b95e5f8513d301aa3.mailgun.org/messages",
-                auth=("api", app.config["MAILGUN_APIKEY"]),
-                data={"from": f"{name} <{sender}>",
-                    "to": ["yfdwf.mugsoctest@inbox.testmail.app"],
-                    "subject": subject,
-                    "text": message})
+
+app.config["MAIL_SERVER"] = "smtppro.zoho.eu"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USE_TLS"] = False
+app.config["MAIL_USERNAME"] = 'contact@mugsoc.me'
+app.config["MAIL_PASSWORD"] = app.config["ZOHO_PWD"]
+app.config["MAIL_DEBUG"] = True
+app.config["MAIL_SUPPRESS_SEND"] = False
+app.config["TESTING"] = False
+app.config["MAIL_DEFAULT_SENDER"] = ("MugSoc Customer Support", "contact@mugsoc.me")
 
 
-# app.config["MAIL_SERVER"] = "smtp-mail.outlook.com"
-# app.config["MAIL_PORT"] = 587
-# app.config["MAIL_USE_SSL"] = True
-# app.config["MAIL_USE_TLS"] = True
-# app.config["MAIL_USERNAME"] = 'contact@example.com'
-# app.config["MAIL_PASSWORD"] = 'your-password'
-
-# mail = Mail(app)
-
+mail = Mail(app)
+def send_message(name, sender, message, subject=""):
+    msg = Message(f"Subject text: {subject}", recipients=[sender])
+    msg.body = f"Test msg sent at {datetime.now()}\n\n{message}"
+    mail.send(msg)
+    print("Message sent")
 
 # 
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -70,7 +68,7 @@ def contact():
     if request.method == "POST":
         if form.validate() == False:
             return render_template("contact.html", form=form)
-        send_simple_message(request.form.get("name"),
+        send_message(request.form.get("name"),
                             request.form.get("email"),
                             request.form.get("message"))
         return "Form posted."
@@ -82,5 +80,3 @@ def contact():
 def cart():
     print("hi")
     return render_template("cart.html")
-
-
