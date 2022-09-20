@@ -7,11 +7,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_mail import Mail, Message
 from forms import ContactForm
 
-import requests
 
 # Configure application
 app = Flask(__name__)
-
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
