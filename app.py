@@ -18,13 +18,6 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config.from_object("config")
 
 
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> d08649f (Email now sends from contact address with correct display name)
-
 app.config["MAIL_SERVER"] = "smtppro.zoho.eu"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USE_SSL"] = True
@@ -38,7 +31,11 @@ app.config["MAIL_DEFAULT_SENDER"] = ("MugSoc Customer Support", "contact@mugsoc.
 
 
 mail = Mail(app)
-
+def send_message(name, sender, message, subject=""):
+    msg = Message(f"Subject text: {subject}", recipients=[sender])
+    msg.body = f"Test msg sent at {datetime.now()}\n\n{message}"
+    mail.send(msg)
+    print("Message sent")
 
 # 
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
