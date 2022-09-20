@@ -11,24 +11,33 @@ from forms import ContactForm
 # Configure application
 app = Flask(__name__)
 
-
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-# Import API keys
+# Import env variables
 app.config.from_object("config")
 
 
 
+<<<<<<< HEAD
 
-# app.config["MAIL_SERVER"] = "smtp-mail.outlook.com"
-# app.config["MAIL_PORT"] = 587
-# app.config["MAIL_USE_SSL"] = True
-# app.config["MAIL_USE_TLS"] = True
-# app.config["MAIL_USERNAME"] = 'contact@example.com'
-# app.config["MAIL_PASSWORD"] = 'your-password'
 
-# mail = Mail(app)
+=======
+>>>>>>> d08649f (Email now sends from contact address with correct display name)
+
+app.config["MAIL_SERVER"] = "smtppro.zoho.eu"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USE_TLS"] = False
+app.config["MAIL_USERNAME"] = 'contact@mugsoc.me'
+app.config["MAIL_PASSWORD"] = app.config["ZOHO_PWD"]
+app.config["MAIL_DEBUG"] = True
+app.config["MAIL_SUPPRESS_SEND"] = False
+app.config["TESTING"] = False
+app.config["MAIL_DEFAULT_SENDER"] = ("MugSoc Customer Support", "contact@mugsoc.me")
+
+
+mail = Mail(app)
 
 
 # 
@@ -62,7 +71,7 @@ def contact():
     if request.method == "POST":
         if form.validate() == False:
             return render_template("contact.html", form=form)
-        send_simple_message(request.form.get("name"),
+        send_message(request.form.get("name"),
                             request.form.get("email"),
                             request.form.get("message"))
         return "Form posted."
@@ -74,5 +83,3 @@ def contact():
 def cart():
     print("hi")
     return render_template("cart.html")
-
-
